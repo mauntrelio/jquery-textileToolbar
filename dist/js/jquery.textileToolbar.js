@@ -14,42 +14,43 @@
   "use strict";
 
   var pluginName = "textileToolbar";
-  var defaults = {
-    toolbarButtons: [
-      {
+
+  // available buttons
+  var buttons = {
+    spacer: {
+        type: "spacer"
+      },
+    strong: {
         type: "singleTag",
         title: "Strong",
         class: "strong",
         tag: "*"
       },
-      {
+    italic: {
         type: "singleTag",
         title: "Italic",
         class: "em",
         tag: "_"
       },
-      {
+    underline: {
         type: "singleTag",
         title: "Underline",
         class: "ins",
         tag: "+"
       },
-      {
+    deleted: {
         type: "singleTag",
         title: "Deleted",
         class: "del",
         tag: "-"
       },
-      {
+    code: {
         type: "singleTag",
         title: "Code",
         class: "code",
         tag: "@"
       },
-      {
-        type: "spacer"
-      },
-      {
+    h1: {
         type: "encloseLine",
         title: "Heading 1",
         class: "h1",
@@ -58,7 +59,7 @@
         searchExpression: /^h\d+\.\s+/,
         replacement: ""
       },
-      {
+    h2: {
         type: "encloseLine",
         title: "Heading 2",
         class: "h2",
@@ -66,8 +67,8 @@
         endTag: "",
         searchExpression: /^h\d+\.\s+/,
         replacement: ""
-      },
-      {
+      },  
+    h3: {
         type: "encloseLine",
         title: "Heading 3",
         class: "h3",
@@ -76,10 +77,7 @@
         searchExpression: /^h\d+\.\s+/,
         replacement: ""
       },
-      {
-        type: "spacer"
-      },
-      {
+    ul: {
         type: "encloseLine",
         title: "Unordered list",
         class: "ul",
@@ -88,7 +86,7 @@
         searchExpression: /(\n|^)[*-]?\s*/g,
         replacement: "$1* "
       },
-      {
+    ol: {
         type: "encloseLine",
         title: "Ordered list",
         class: "ol",
@@ -97,10 +95,7 @@
         searchExpression: /(\n|^)[*-]?\s*/g,
         replacement: "$1# "
       },
-      {
-        type: "spacer"
-      },
-      {
+    pre:  {
         type: "encloseLine",
         title: "Preformatted text",
         class: "pre",
@@ -109,30 +104,46 @@
         searchExpression: false,
         replacement: ""
       },
-      {
-        type: "spacer"
-      },
-      {
+    img: {
         type: "singleTag",
         title: "Image",
         class: "img",
         tag: "!"
       },
-      {
+    link: {
         type: "insertLink",
         title: "Link",
         class: "link"
       },
-      {
-        type: "spacer"
-      },
-      {
+    url: {
         type: "link",
         title: "Help",
         class: "help",
         url: "about:blank",
         window_properties: "resizable=yes, location=no, width=300, height=640, menubar=no, status=no, scrollbars=yes"
-      }
+       }
+  }
+
+  // default toolbar
+  var defaults = {
+    toolbar: [
+      "strong",
+      "italic",
+      "underline",
+      "deleted",
+      "code",
+      "spacer",
+      "h1",
+      "h2",
+      "h3",
+      "spacer",
+      "ul",
+      "ol",
+      "spacer",
+      "pre",
+      "spacer",
+      "img",
+      "link"
     ]
   };
 
@@ -143,6 +154,8 @@
     this._name = pluginName;
     this.init();
   }
+
+  TextileToolbar.defaultToolbar = defaults.toolbar;
 
   TextileToolbar.prototype.getSelection = function(line) {
     var textarea = this.textarea;
@@ -229,7 +242,9 @@
     var htmlButton;
 
     // create buttons based on the configuration
-    $.each(settings.toolbarButtons, function(index, button) {
+    $.each(settings.toolbar, function(index, buttonName) {
+      var button = buttons[buttonName];
+      if (!button) return;
       if (button.type === "spacer") {
         htmlButton = $("<span class=\"tt-spacer\"></span>");
       } else {
@@ -292,7 +307,7 @@
     var textarea = this.textarea;
     this._reset();
     // remove data attributes (we are deleting the instance completely)
-    $(textarea).removeData("'plugin_" + this._name);
+    $(textarea).removeData("plugin_" + this._name);
   };
 
   TextileToolbar.prototype.repaint = function(){

@@ -22,18 +22,27 @@
 
 	</style>
 
-	<script src="//code.jquery.com/jquery-1.9.1.min.js"></script>
-	<script src="../dist/js/jquery.textileToolbar.js?v=20180329"></script>
+	<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<script src="../dist/js/jquery.textileToolbar.js?v=201803291736"></script>
 
 	<script>
 
 	$(function(){
 
 		// add toolbar
-		$('#addtoolbar_one').on('click',function(){
-			$('#firstText').textileToolbar();
+		$("#addtoolbar").on("click",function(){
+			$("#textile1").textileToolbar();
 		});	
 
+		// remove toolbar
+		$("#removetoolbar").on("click",function(){
+			$("#textile1").textileToolbar("destroy");
+		});	
+
+		// add toolbar
+		$("#addtoolbar2").on("click",function(){
+			$("#textile2").textileToolbar({toolbar: ["strong","italic","underline","spacer","ul","ol"]});
+		});	
 
 	});
 
@@ -43,23 +52,30 @@
 
 <body>
 
-	<h1>Examples of jquery-textileToolbar:</h1>
+	<h1>Example of jquery-textileToolbar:</h1>
 
-	<p>Coming soon...</p>
-
-
-<!-- 	<div class="spacer">	
-		<ul>
-			<li><a href="#one">Texttile toolbar applied on click of button</a></li>
-		</ul>
-	</div>
- -->
-	<hr>	
-
-
+	<div class="spacer">	
+		<form>
+			<input type="button" id="addtoolbar" value="Add toolbar">
+			<input type="button" id="removetoolbar" value="Remove toolbar">
+			<br>
+			<br>
+			<textarea id="textile1" rows="20" cols="60"></textarea>
+		</form>
 	</div>
 
+	<hr>
 
+	<div class="spacer">	
+		<form>
+			<input type="button" id="addtoolbar2" value="Add simple toolbar">
+			<br>
+			<br>
+			<textarea id="textile2" rows="20" cols="60"></textarea>
+		</form>
+	</div>
+
+	<hr>
 
 </body>
 

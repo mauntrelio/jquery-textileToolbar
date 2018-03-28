@@ -8,6 +8,9 @@ https://github.com/alphabetum/redmine_restructuredtext_formatter
 
 Adapted as a jQuery plugin by Maurizio Manetti.
 
+Please note that this plugin is NOT rendering textile text as
+HTML, it is just adding a toolbar to jQuery selected textareas.
+
 ## Installation:
 
 To be documented. 
@@ -17,14 +20,14 @@ To be documented.
 Include files from the dist folder:
 
 ```html
-<!-- Simple Tree core CSS file -->
+<!-- Textile Toolbar core CSS file -->
 <link rel="stylesheet" href="css/textileToolbar.css">
 
 <!-- jQuery 1.9+ or Zepto.js 1.0+ -->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
-<!-- Simple Tree core JS file -->
-<script src="js/jquery.TextileToolbar.min.js"></script>
+<!-- Textile Toolbar core JS file -->
+<script src="js/jquery.textileToolbar.min.js"></script>
 ```
 
 Toolbar initialization should be executed after document ready, for example:
@@ -55,7 +58,7 @@ Live demo and examples: coming soon
 
 ## Alternatives:
 
-To do
+To be investigated
 
 ## TODO:
 
