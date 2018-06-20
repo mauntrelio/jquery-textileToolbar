@@ -126,6 +126,7 @@
 
   // default toolbar
   var defaults = {
+    buttons: buttons,
     toolbar: [
       "strong",
       "italic",
@@ -148,8 +149,11 @@
   };
 
   function TextileToolbar( element, options ) {
+    options = options || {};
     this.textarea = element;
-    this.settings = $.extend( {}, defaults, options);
+    this.settings = {};
+    this.settings.toolbar = options.toolbar || defaults.toolbar;
+    this.settings.buttons = $.extend( {}, defaults.buttons, options.buttons);
     this._defaults = defaults;
     this._name = pluginName;
     this.init();
@@ -243,7 +247,7 @@
 
     // create buttons based on the configuration
     $.each(settings.toolbar, function(index, buttonName) {
-      var button = buttons[buttonName];
+      var button = settings.buttons[buttonName];
       if (!button) return;
       if (button.type === "spacer") {
         htmlButton = $("<span class=\"tt-spacer\"></span>");

@@ -39,9 +39,18 @@
 			$("#textile1").textileToolbar("destroy");
 		});	
 
-		// add toolbar
+		// add toolbar with custom button behaviour
 		$("#addtoolbar2").on("click",function(){
-			$("#textile2").textileToolbar({toolbar: ["strong","italic","underline","spacer","ul","ol"]});
+			$("#textile2").textileToolbar({
+				buttons: {url: {
+        						type: "link",
+        						title: "Help",
+        						class: "help",
+        						url: "https://www.google.com",
+        						window_properties: "resizable=yes, location=no, width=300, height=640, menubar=no, status=no, scrollbars=yes"
+       						}},
+				toolbar: ["strong","italic","underline","spacer","ul","ol","url"]
+			});
 		});	
 
 	});
