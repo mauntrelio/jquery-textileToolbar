@@ -23,7 +23,7 @@
 	</style>
 
 	<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
-	<script src="../dist/js/jquery.textileToolbar.js?v=201803291736"></script>
+	<script src="../dist/js/jquery.textileToolbar.js?v=201807181541"></script>
 
 	<script>
 
@@ -49,9 +49,16 @@
         						url: "https://www.google.com",
         						window_properties: "resizable=yes, location=no, width=300, height=640, menubar=no, status=no, scrollbars=yes"
        						}},
-				toolbar: ["strong","italic","underline","spacer","ul","ol","url"]
+				toolbar: ["strong","italic","underline","spacer","ul","ol","url"],
+				placement: "afterElement"
 			});
 		});	
+
+		// add toolbar before textarea parent div
+		$("#addtoolbar3").on("click", function(){
+			$("#textile3").textileToolbar({placement: "beforeParent"});
+		});	
+
 
 	});
 
@@ -77,10 +84,23 @@
 
 	<div class="spacer">	
 		<form>
-			<input type="button" id="addtoolbar2" value="Add simple toolbar">
+			<input type="button" id="addtoolbar2" value="Add a custom simpler toolbar under the textarea">
 			<br>
 			<br>
 			<textarea id="textile2" rows="20" cols="60"></textarea>
+		</form>
+	</div>
+
+	<hr>
+
+	<div class="spacer">	
+		<form>
+			<input type="button" id="addtoolbar3" value="Add a toolbar before the textarea parent">
+			<br>
+			<br>
+			<div style="display:flex">
+				<textarea id="textile3" rows="20" cols="60"></textarea>
+			</div>
 		</form>
 	</div>
 

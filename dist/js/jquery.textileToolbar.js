@@ -124,7 +124,7 @@
        }
   }
 
-  // default toolbar
+  // default toolbar options
   var defaults = {
     buttons: buttons,
     toolbar: [
@@ -145,7 +145,17 @@
       "spacer",
       "img",
       "link"
-    ]
+    ],
+    placement: 'beforeElement'
+    /*
+     Possible placement values:
+      string 'beforeElement' default: place toolbar div immediately before the textarea
+      string 'afterElement' place toolbar div immediately after the textarea
+      string 'beforeParent' place toolbar div before the textarea's parent container
+      string 'afterParent' place toolbar div after the textarea's parent container
+      function callback returning jQuery element before which to place the toolbar
+    */
+
   };
 
   function TextileToolbar( element, options ) {
@@ -154,6 +164,7 @@
     this.settings = {};
     this.settings.toolbar = options.toolbar || defaults.toolbar;
     this.settings.buttons = $.extend( {}, defaults.buttons, options.buttons);
+    this.settings.placement = options.placement || defaults.placement;
     this._defaults = defaults;
     this._name = pluginName;
     this.init();
@@ -240,10 +251,13 @@
   TextileToolbar.prototype.init = function () {
     var settings = this.settings;
     var textarea = this.textarea;
+    var placement = this.settings.placement;
     var toolbar = this;
 
     var toolbarDiv = $("<div class=\"textile-toolbar\"></div>");
     var htmlButton;
+
+    var defaultPlacement = function() {$(toolbarDiv).insertBefore(textarea);};
 
     // create buttons based on the configuration
     $.each(settings.toolbar, function(index, buttonName) {
@@ -295,8 +309,37 @@
       toolbarDiv.append(htmlButton);
     });
 
-    $(textarea).before(toolbarDiv);
-
+    // insert toolbar based on settings placement:
+    if (typeof placement === "string") {
+     switch (placement) {
+      case "beforeElement": 
+        $(toolbarDiv).insertBefore(textarea);
+      break;  
+      case "afterElement":
+        $(toolbarDiv).insertAfter(textarea);
+      break;  
+      case "beforeParent":
+        $(toolbarDiv).insertBefore($(textarea).parent());
+      break;  
+      case "afterPrent":
+        $(toolbarDiv).insertAfter($(textarea).parent());
+      break;  
+      default:
+        console.warn("Unexpected placement indication: \"%s\". Using default.", placement);
+        defaultPlacement();
+     }
+    } else if (typeof placement === "function") {
+      var element = placement();
+      if (typeof element === "undefined" || element.length === 0) {
+        console.warn("Placement function did not return any matching element: using default");
+        defaultPlacement();
+      } else {
+        $(toolbarDiv).insertBefore(element);
+      }
+    } else {
+      defaultPlacement();
+    }
+    
   };
 
   TextileToolbar.prototype._reset = function(){
